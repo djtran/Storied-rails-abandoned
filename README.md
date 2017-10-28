@@ -21,7 +21,22 @@ Timeline of a transaction:
 
 Now do that in as many flavors as needed (Login, pick an adventure, create an object, view an object in the inspector, etc.)
 
+# The Concept of Pictures
+## Big Picture and Little Picture
+#### Big Picture
+Establishes the world. 
+- Setting
+- Population
 
+
+#### Little Picture
+Terminal objects. 
+
+- Characters
+- Obstacles
+- Loot
+- Monsters
+- ... Specifics
 
 
 # README

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location: MyText
+  time: MyText
+  culture: MyText
+  links: MyText
+
+two:
+  location: MyText
+  time: MyText
+  culture: MyText
+  links: MyText
