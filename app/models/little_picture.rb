@@ -1,0 +1,2 @@
+class LittlePicture < Picture
+end

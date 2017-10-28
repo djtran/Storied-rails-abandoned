@@ -1,0 +1,2 @@
+class BigPicture < Picture
+end
