@@ -1,7 +1,7 @@
-Request and Response Info
+// Request and Response Info
 
-__create/bigpicture__
-Request:
+// __create/bigpicture__
+// Request:
 {
 	"name": "myBigPicture",
 	"description": "best picture",
@@ -11,27 +11,27 @@ Request:
 	"culture": "Predominantly ruled by djinns"
 }
 
-Response:
-On success
-
+// Response:
+// On success
 { 
 	"success": true,
-	"id": "deadbeef"	
+	"id": "<unique_id>"	
 }
 
-On failure
+// On failure
 {
 	"success": false,
 	"err": "<error_code>"
 }
 
-__read/bigpicture__
-Request:
+// __read/bigpicture__
+// Request:
 {
 	"id":"<unique_id>"
 }
 
-Response:
+// Response:
+// On success
 {
 	"success":"true",
 	"id":"<unique_id>",
@@ -44,6 +44,7 @@ Response:
 	"links": "id1 id5 id3"
 }
 
+// On failure
 {
 	"success":"false",
 	"err": "<error_code>"
@@ -51,8 +52,8 @@ Response:
 
 
 
-__update/bigpicture__
-Request:
+// __update/bigpicture__
+// Request:
 {
 	"id":"<unique_id>",
 	"name": "myBigPicture",
@@ -64,33 +65,34 @@ Request:
 	"links": "id1 id5 id3"
 }
 
-Response:
+// Response:
+// On success
 {
 	"success": true,
 	"id":"<unique_id>",
 	"version": "<unique_id>"
 }
 
+// On failure
 {
 	"success": false,
 	"err":"<error_code>"
 }
 
-__delete/bigpicture__
-
-alert("are you sure")
-
-
-Request:
+// __delete/bigpicture__
+// alert("are you sure")
+// Request:
 {
 	"id":"<unique_id>"
 }
 
-Response:
+// Response:
+// On success
 {
 	"success":"true"
 }
 
+// On failure
 {
 	"success":"false",
 	"err":"<error_code>"
