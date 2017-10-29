@@ -10,6 +10,50 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require bootstrap
  *= require_tree .
  *= require_self
  */
+
+.full_height {
+    margin: 0px;
+    height: 100%;
+    min-height: 100%;
+}
+
+.full_width {
+    margin: 0px;
+    min-width: 100%;
+    width: 100%;
+}
+
+.content {
+    position: relative;
+    z-index: 100;
+}
+
+#graphContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/*D3 force graph!*/
+.links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+.nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+

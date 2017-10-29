@@ -48,3 +48,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Use jQuery for coffee on the dom
+gem 'jquery-rails'
+# Use neo4j for graph generation
+gem 'd3-rails'
