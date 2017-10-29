@@ -31,6 +31,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#"><%= link_to "Create Adventure", new_post_path %></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><%= link_to "Graphs", graph_path %></a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -39,7 +42,11 @@
       </div>
     </nav>
 
+<body>
+  <div>
     <%= yield %>
+  </div>
+</body>
 
     
 
