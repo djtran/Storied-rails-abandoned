@@ -1,0 +1,99 @@
+// Request and Response Info
+
+// __create/bigpicture__
+// Request:
+{
+	"name": "myBigPicture",
+	"description": "best picture",
+	"flavor": "chocolate",
+	"location": "Forgotten Realms",
+	"time": "-7800 DR",
+	"culture": "Predominantly ruled by djinns"
+}
+
+// Response:
+// On success
+{ 
+	"success": true,
+	"id": "<unique_id>"	
+}
+
+// On failure
+{
+	"success": false,
+	"err": "<error_code>"
+}
+
+// __read/bigpicture__
+// Request:
+{
+	"id":"<unique_id>"
+}
+
+// Response:
+// On success
+{
+	"success":"true",
+	"id":"<unique_id>",
+	"name": "myBigPicture",
+	"description": "best picture",
+	"flavor": "chocolate",
+	"location": "Forgotten Realms",
+	"time": "-7800 DR",
+	"culture": "Predominantly ruled by djinns",
+	"links": "id1 id5 id3"
+}
+
+// On failure
+{
+	"success":"false",
+	"err": "<error_code>"
+}
+
+
+
+// __update/bigpicture__
+// Request:
+{
+	"id":"<unique_id>",
+	"name": "myBigPicture",
+	"description": "best picture",
+	"flavor": "chocolate",
+	"location": "Forgotten Realms",
+	"time": "-7800 DR",
+	"culture": "Predominantly ruled by djinns",
+	"links": "id1 id5 id3"
+}
+
+// Response:
+// On success
+{
+	"success": true,
+	"id":"<unique_id>",
+	"version": "<unique_id>"
+}
+
+// On failure
+{
+	"success": false,
+	"err":"<error_code>"
+}
+
+// __delete/bigpicture__
+// alert("are you sure")
+// Request:
+{
+	"id":"<unique_id>"
+}
+
+// Response:
+// On success
+{
+	"success":"true"
+}
+
+// On failure
+{
+	"success":"false",
+	"err":"<error_code>"
+}
