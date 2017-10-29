@@ -5,17 +5,34 @@
 			<div class="alert alert-danger"><%= msg %></div>
 		<% end %>
 	<% end %>
-	<p>
+<div>
+	<p style="
+	position: relative;
+	padding-top: 3%;
+	padding-left: 5%;
+	padding-right: 5%;
+	">
 		<%= f.label :title %><br>
 		<%= f.text_field(:title, {:class => 'form-control'}) %>
 	</p>
+</div>
 
-	<p>
+<div>
+	<p style="
+	position: relative;
+	padding-left: 5%;
+	padding-right: 5%;
+	">
 		<%= f.label :body %><br>
 		<%= f.text_area(:body, {:class => 'form-control'}) %>
 	</p>
+</div>
 
-	<p>
+<div>
+	<p style="
+	position: relative;
+	padding-left: 5%;
+	">
 		<%= f.submit({:class => 'btn btn-primary'}) %>
 	</p>
 <% end %>
