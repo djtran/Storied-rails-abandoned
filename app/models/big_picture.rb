@@ -8,7 +8,7 @@ class BigPicture < Picture
   def initialize
     @location = 'The Forgotten Realms'
     @time = '-7800 DR'
-    @culture = 'Predominantly dominated by Djinn'
+    @culture = 'Predominantly dominated by Djinns'
     @links = '{}'
   end
 end
