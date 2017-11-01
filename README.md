@@ -1,3 +1,12 @@
+# 0.1 Requirements
+
+1. [ ] Graph View
+2. [ ] Art Critic
+    - Click on a Big Picture and details should populate the Art Critic
+3. [ ] Big Picture CRUD & Linking
+    - Should be integrated with the Graph View
+
+
 # Views
 
 1. Index: Plain clean background with just a login interface
