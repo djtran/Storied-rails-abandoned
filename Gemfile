@@ -51,5 +51,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Use jQuery for coffee on the dom
 gem 'jquery-rails'
-# Use neo4j for graph generation
+# Use d3 for graph visualization
 gem 'd3-rails'
