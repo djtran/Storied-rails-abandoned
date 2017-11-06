@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :big_picture
-<<<<<<< HEAD
+  resources :little_pictures
+  resources :big_pictures
+  # RESOURCES give you:
   # get     #index - list of all big pictures
   # get     #new - form for create object
   # post    #create - actual request
@@ -11,13 +12,8 @@ Rails.application.routes.draw do
   # delete  #destroy(id)- delete specific
 
   get 'app/index'
-
   get 'graph/index'
 
-=======
-    get '/big_picture/new', to: 'big_picture#create'
-
->>>>>>> preliminary controller, create not routed
   root 'app#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

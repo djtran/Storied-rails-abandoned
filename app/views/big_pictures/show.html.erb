@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Uuid:</strong>
+  <%= @big_picture.uuid %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @big_picture.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @big_picture.description %>
+</p>
+
+<p>
+  <strong>Flavor:</strong>
+  <%= @big_picture.flavor %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @big_picture.location %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @big_picture.time %>
+</p>
+
+<p>
+  <strong>Culture:</strong>
+  <%= @big_picture.culture %>
+</p>
+
+<p>
+  <strong>Edges:</strong>
+  <%= @big_picture.edges %>
+</p>
+
+<%= link_to 'Edit', edit_big_picture_path(@big_picture) %> |
+<%= link_to 'Back', big_pictures_path %>

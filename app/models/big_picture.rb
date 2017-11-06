@@ -1,14 +1,31 @@
-class BigPicture < Picture
+class BigPicture < ApplicationRecord
 
-  attr_accessor :location
-  attr_accessor :time
+  # attributes
+  has_many :little_pictures
+
+
+  # boilerplate getters & setters
   attr_accessor :culture
-  attr_accessor :links
+  attr_accessor :description
+  attr_accessor :edges
+  attr_accessor :flavor
+  attr_accessor :location
+  attr_accessor :name
+  attr_accessor :time
+  attr_accessor :uuid
+
 
   def initialize
-    @location = 'The Forgotten Realms'
-    @time = '-7800 DR'
+
     @culture = 'Predominantly dominated by Djinns'
-    @links = '{}'
+    @description = 'Description'
+    @edges = '{}'
+    @flavor = '--His trail rallies a jellyfish yet burns far hotter than the fiercest sack – Nephikitty'
+    @location = 'The Forgotten Realms'
+    @name = 'Name'
+    @time = '-7800 DR'
+    @uuid = 'So unique!'
+
   end
+
 end

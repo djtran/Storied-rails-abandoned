@@ -1,0 +1,57 @@
+<%= form_with(model: big_picture, local: true) do |form| %>
+  <% if big_picture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(big_picture.errors.count, "error") %> prohibited this big_picture from being saved:</h2>
+
+      <ul>
+      <% big_picture.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :uuid %>
+    <%= form.text_field :uuid, id: :big_picture_uuid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :big_picture_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :big_picture_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :flavor %>
+    <%= form.text_area :flavor, id: :big_picture_flavor %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location, id: :big_picture_location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time %>
+    <%= form.text_field :time, id: :big_picture_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :culture %>
+    <%= form.text_area :culture, id: :big_picture_culture %>
+  </div>
+
+  <div class="field">
+    <%= form.label :edges %>
+    <%= form.text_field :edges, id: :big_picture_edges %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
