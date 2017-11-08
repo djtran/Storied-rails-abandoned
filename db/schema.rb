@@ -10,27 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028212448) do
+ActiveRecord::Schema.define(version: 20171106164132) do
 
   create_table "big_pictures", force: :cascade do |t|
+    t.string "uuid"
+    t.string "name"
+    t.text "description"
+    t.text "flavor"
     t.string "location"
     t.string "time"
     t.text "culture"
-    t.string "links"
+    t.string "edges"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "little_pictures", force: :cascade do |t|
-    t.string "tags"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "pictures", force: :cascade do |t|
-    t.string "name"
     t.text "description"
     t.text "flavor"
+    t.string "name"
+    t.string "tags"
+    t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

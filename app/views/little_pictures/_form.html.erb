@@ -1,0 +1,42 @@
+<%= form_with(model: little_picture, local: true) do |form| %>
+  <% if little_picture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(little_picture.errors.count, "error") %> prohibited this little_picture from being saved:</h2>
+
+      <ul>
+      <% little_picture.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :little_picture_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :flavor %>
+    <%= form.text_area :flavor, id: :little_picture_flavor %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :little_picture_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags %>
+    <%= form.text_field :tags, id: :little_picture_tags %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uuid %>
+    <%= form.text_field :uuid, id: :little_picture_uuid %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
