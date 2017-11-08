@@ -3,8 +3,7 @@ class LittlePicture < ApplicationRecord
   # attributes
   belongs_to :big_picture
 
-
-  def initialize
+  
   after_initialize :set_defaults, unless: :persisted?
   def set_defaults
     if description.nil?
