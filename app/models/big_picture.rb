@@ -3,29 +3,39 @@ class BigPicture < ApplicationRecord
   # attributes
   has_many :little_pictures
 
+  after_initialize :set_defaults, unless: :persisted?
+  def set_defaults
+    if culture.nil?
+      self.culture ='Predominantly dominated by Djinns'
+    end
 
-  # boilerplate getters & setters
-  attr_accessor :culture
-  attr_accessor :description
-  attr_accessor :edges
-  attr_accessor :flavor
-  attr_accessor :location
-  attr_accessor :name
-  attr_accessor :time
-  attr_accessor :uuid
+    if description.nil?
+      self.description = 'Description'
+    end
 
+    if edges.nil?
+      self.edges = '{}'
+    end
 
-  def initialize
+    if flavor.nil?
+      self.flavor = '--His trail rallies a jellyfish yet burns far hotter than the fiercest sack – Nephikitty'
+    end
 
-    @culture = 'Predominantly dominated by Djinns'
-    @description = 'Description'
-    @edges = '{}'
-    @flavor = '--His trail rallies a jellyfish yet burns far hotter than the fiercest sack – Nephikitty'
-    @location = 'The Forgotten Realms'
-    @name = 'Name'
-    @time = '-7800 DR'
-    @uuid = 'So unique!'
+    if location.nil?
+      self.location = 'The Forgotten Realms'
+    end
+
+    if name.nil?
+      self.name = 'Name'
+    end
+
+    if time.nil?
+      self.time = '-7800 DR'
+    end
+
+    if uuid.nil?
+      self.uuid = 'So unique!'
+    end
 
   end
-
 end
