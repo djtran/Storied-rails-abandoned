@@ -1,0 +1,32 @@
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron" style="
+      position: relative;
+      padding-top: 15%;
+      ">
+        <div class="container">
+          <h1 class="display-3">Welcome to Storied!</h1>
+          <p>This is a way for you to easily create and manage your adventures.</p>
+          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+      </div>
+
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <div class="col-md-4">
+            <h1>Adventures</h1>
+            <% @posts.each do |post| %>
+              <div class="well">
+                <h3><%= post.title %> </h3>
+               <p><%= post.body %></p>
+               <%= link_to "Read More", post_path(post), :class => 'btn
+              btn-default' %>
+            </div>
+          <% end %>
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+    </main>

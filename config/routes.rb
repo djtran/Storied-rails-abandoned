@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   resources :little_pictures
   resources :big_pictures
+  resources :posts
   # RESOURCES give you:
   # get     #index - list of all big pictures
   # get     #new - form for create object
@@ -17,4 +18,12 @@ Rails.application.routes.draw do
   root 'app#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'posts#index', as:'home'
+
+  get 'about' => 'pages#about', as:'about'
+
+  get 'graphs' => 'pages#graphs', as:'graph'
+
+
+
 end
