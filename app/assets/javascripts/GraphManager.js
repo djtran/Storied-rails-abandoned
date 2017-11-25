@@ -1,5 +1,5 @@
-var completeGraph = {
-    "nodes": [
+var data = {
+    nodes: [
         {"id": "1", "name":"Villaine", "group": 1},
         {"id": "2", "name":"Boar Forest", "group": 2},
         {"id": "4", "name":"Cornelius's Mansion", "group": 3},
@@ -8,7 +8,7 @@ var completeGraph = {
         {"id": "11", "name":"Greg's Workshop", "group": 1},
         {"id": "12", "name":"Tink and Spark's Home", "group": 2}
         ],
-    "links": [
+    links: [
         {"source": "1", "target": "2", "value": 1},
         {"source": "2", "target": "4", "value": 1},
         {"source": "4", "target": "8", "value": 1},
@@ -20,11 +20,9 @@ var completeGraph = {
 
 var svg;
 var simulation;
-var allNodes, allLinks, allLabels;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 var nodeRadius = 2;
 var nodeMinDist = 60;
-var nodeMaxDist = nodeMinDist*3;
 
 //Initialize all of our vars
 $(document).ready(function(){
@@ -41,18 +39,13 @@ $(document).ready(function(){
     //Center pulls the nodes (& the camera) to the center of the SVG.
     simulation = d3.forceSimulation()
         .force("link", d3.forceLink().id(function(d) { return d.id; }))
-        // .force('charge', d3.forceManyBody()
-        //     .strength(-100)
-        //     .theta(0.8)
-        //     .distanceMax(nodeMaxDist)
-        // )
         .force('collide', d3.forceCollide()
             .radius(nodeMinDist)
             .iterations(2))
         .force("center", d3.forceCenter(width / 2, height / 2));
 
     //Draw the graph
-    initialize(completeGraph);
+    update();
 
     //Wait some time for the simulation to center, then let the user drag as they please.
     setTimeout(function() {
@@ -69,69 +62,39 @@ function addNode(position) {
     var nodeToAdd = {
         id: uuid,
         name: "Node " + uuid,
-        group: Math.floor(Math.random())%5,
+        group: Math.floor(Math.random()*100)%5,
         x: position.pageX,
         y: position.pageY
     };
 
-    completeGraph.nodes.push($.extend(true, {}, nodeToAdd));
+    console.log(position.pageX + ", " + position.pageY);
+
+    data.nodes.push(nodeToAdd);
     update();
 }
 
-function initialize(graph) {
-    allLinks = svg.append("g")
-        .style("stroke", "#aaa")
-        .selectAll("line")
-        .data(graph.links)
-        .enter().append("line")
-        .attr("class", "links");
-    allNodes = svg.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(graph.nodes)
-        .enter().append("circle")
-        .attr("r", nodeRadius)
-        .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
-
-    allLabels = svg.append("g")
-        .attr("class", "labels")
-        .selectAll("text")
-        .data(graph.nodes)
-        .enter().append("text")
-        .attr("class", "label")
-        .attr("text-anchor", "middle")
-        .text(function(d) { return d.name; });
-
-    simulation
-        .nodes(completeGraph.nodes)
-        .on("tick", ticked);
-    simulation.force("link")
-        .links(completeGraph.links);
-}
-
 function ticked() {
-    allLinks
+    svg.selectAll("line")
+        .style("stroke", "#aaa")
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
-    allNodes
+    svg.selectAll("circle")
         .attr("r", 16)
         .style("fill", function(d) {return color(d.group)})
         .style("stroke", "#424242")
         .style("stroke-width", "1px")
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
-    allLabels
+    svg.selectAll("text")
         .attr("x", function(d) { return d.x; })
         .attr("y", function (d) { return d.y - nodeRadius*10; })
         .style("font-family", "Lato")
         .style("font-size", "12px")
         .style("fill", "#333");
 }
+
 function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x;
