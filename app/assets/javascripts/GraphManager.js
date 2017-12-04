@@ -24,6 +24,8 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 var nodeRadius = 2;
 var nodeMinDist = 60;
 
+var state = STATE.IDLE;
+
 //Initialize all of our vars
 $(document).ready(function(){
     var width = $(window).width();
@@ -66,10 +68,17 @@ function addNode(position) {
         x: position.pageX,
         y: position.pageY
     };
-
-    console.log(position.pageX + ", " + position.pageY);
-
     data.nodes.push(nodeToAdd);
+    update();
+}
+
+function addLink(fromNode, toNode) {
+    var linkToAdd = {
+        source: fromNode.id,
+        target: toNode.id,
+        value: 1
+    };
+    data.links.push(linkToAdd);
     update();
 }
 
