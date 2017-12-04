@@ -1,3 +1,9 @@
+var source;
+
+function setSource(sourceIP) {
+    source = sourceIP;
+}
+
 function log(logMessage) {
     logDebug(logMessage)
 }
@@ -6,6 +12,7 @@ function logDebug(logMessage) {
     var payload = {
         message: logMessage,
         type: 'debug'
+        client: source;
     };
     sendLogRequest(payload);
 }
@@ -13,7 +20,8 @@ function logDebug(logMessage) {
 function logInfo(logMessage) {
     var payload = {
         message: logMessage,
-        type: 'info'
+        type: 'info',
+        client: source
     };
     sendLogRequest(payload);
 }
@@ -21,7 +29,8 @@ function logInfo(logMessage) {
 function logWarn(logMessage) {
     var payload = {
         message: logMessage,
-        type: 'warn'
+        type: 'warn',
+        client: source
     };
     sendLogRequest(payload);
 }
@@ -29,7 +38,8 @@ function logWarn(logMessage) {
 function logError(logMessage) {
     var payload = {
         message: logMessage,
-        type: 'error'
+        type: 'error',
+        client: source
     };
     sendLogRequest(payload);
 }
@@ -37,7 +47,8 @@ function logError(logMessage) {
 function logFatal(logMessage) {
     var payload = {
         message: logMessage,
-        type: 'fatal'
+        type: 'fatal',
+        client: source
     };
     sendLogRequest(payload);
 }

@@ -23,10 +23,11 @@ var simulation;
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 var nodeRadius = 2;
 var nodeMinDist = 60;
-
 var state = STATE.IDLE;
 
-//Initialize all of our vars
+/*
+Initialize the graph at startup.
+ */
 $(document).ready(function(){
     var width = $(window).width();
     var height = $(window).height();
@@ -54,11 +55,25 @@ $(document).ready(function(){
         simulation.force("center", null);
     }, 1000);
 
-    $("svg").on("click", function(event) {
-        addNode(event);
-    });
+    setControls();
+
+    //Put it into a setTimeout cause I'm not sure if the call is blocking, thoughts? If for whatever reason this
+    //small site went down how would that affect us >.>
+    //Log where the request came from, attach to debug info
+    setTimeout(function() {
+
+        $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
+            function(json) {
+                setSource(json.ip);
+                //Each logger payload contains { source: <host-ip-here> }
+                logInfo("Browser connection established");
+            })
+    },10);
 });
 
+/*
+Create a new node at a given (X,Y) coordinate
+ */
 function addNode(position) {
     var uuid = uuidv4();
     var nodeToAdd = {
@@ -72,6 +87,9 @@ function addNode(position) {
     update();
 }
 
+/*
+Create a link between two nodes and add it to the graph
+ */
 function addLink(fromNode, toNode) {
     var linkToAdd = {
         source: fromNode.id,
@@ -82,6 +100,9 @@ function addLink(fromNode, toNode) {
     update();
 }
 
+/*
+Update each group of objects in the D3 force simulation.
+ */
 function ticked() {
     svg.selectAll("line")
         .style("stroke", "#aaa")
@@ -104,7 +125,12 @@ function ticked() {
         .style("fill", "#333");
 }
 
+/*
+Drag methods to adjust the position of the node we are dragging, and also to update the state machine in case any other
+controls are activated while we do this.
+ */
 function dragstarted(d) {
+    setState(STATE.DRAGNODE);
     if (!d3.event.active) simulation.alphaTarget(0.3).restart()
     d.fx = d.x;
     d.fy = d.y;
@@ -114,7 +140,42 @@ function dragged(d) {
     d.fy = d3.event.y;
 }
 function dragended(d) {
+    setState(STATE.HOVERNODE);
     d.fx = null;
     d.fy = null;
     if (!d3.event.active) simulation.alphaTarget(0);
+}
+
+/*
+Enable controls based on our state machine.
+ */
+function setControls() {
+    $("svg").on("click", function(event) {
+        switch(state) {
+            case STATE.HOVEREMPTY:
+                addNode(event);
+                break;
+            case STATE.HOVERNODE:
+                // TODO: Select method
+                break;
+            case STATE.CONTEXTMENU:
+                // TODO: Select option or click out of context menu.
+                break;
+        }
+    });
+
+    // TODO: more controls like right click, middle mouse, etc.
+}
+
+/*
+Modify the state machine that will change control behaviors. Validates input before changing state.
+ */
+function setState(stateEnum) {
+    var isEnum = stateEnum instanceof enumValue;
+    if (!isEnum) {
+        logError("Could not change state from " + state.value + " to " + stateEnum + ". \nStringified: " + JSON.stringify(stateEnum));
+    } else {
+        state = stateEnum;
+        logInfo("State Change: " + state.value + " -> " + stateEnum.value);
+    }
 }
