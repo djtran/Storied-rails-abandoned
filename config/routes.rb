@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # delete  #destroy(id)- delete specific
 
   # POST to /logs and the logger will write timestamped output to a logfile.
-  map.logs "logs", :controller => 'logger', :action => 'create', :conditions => {:method => :post}
+  post 'logger/create'
 
   get 'app/index'
   get 'graph/index'

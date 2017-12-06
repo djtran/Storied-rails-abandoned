@@ -17,7 +17,14 @@ var STATE = {
     IDLE : new enumValue('IDLE'),
     HOVEREMPTY : new enumValue('HOVEREMPTY'),
     HOVERNODE : new enumValue('HOVERNODE'),
+    HOVERLINK : new enumValue('HOVERLINK'),
     DRAGNODE : new enumValue('DRAGNODE'),
     LINKSTART : new enumValue('LINKSTART'),
     CONTEXTMENU : new enumValue('CONTEXTMENU')
+};
+
+var TYPE = {
+    EMPTY : new enumValue('EMPTY'),
+    NODE : new enumValue('NODE'),
+    LINK : new enumValue('LINK')
 };

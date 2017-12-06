@@ -1,3 +1,6 @@
+/*
+Graph drawn & redrawn onto the view.
+ */
 var data = {
     nodes: [
         {"id": "1", "name":"Villaine", "group": 1},
@@ -16,14 +19,30 @@ var data = {
         {"source": "1", "target": "11", "value": 1},
         {"source": "2", "target": "12", "value": 1},
     ]
-}
+};
 
+/*
+Static constants
+ */
+const color = d3.scaleOrdinal(d3.schemeCategory20);
+const nodeRadius = 3;
+const nodeMinDist = 60;
+
+/*
+Graph State variables
+ */
 var svg;
 var simulation;
-var color = d3.scaleOrdinal(d3.schemeCategory20);
-var nodeRadius = 2;
-var nodeMinDist = 60;
 var state = STATE.IDLE;
+var selection = {
+    type: TYPE.EMPTY.value
+};
+
+//For special states (drag or linkstart)
+var specialState = STATE.IDLE;
+var specialSelection = {
+    type: TYPE.EMPTY.value
+};
 
 /*
 Initialize the graph at startup.
@@ -46,6 +65,8 @@ $(document).ready(function(){
             .radius(nodeMinDist)
             .iterations(2))
         .force("center", d3.forceCenter(width / 2, height / 2));
+
+    changeBGColor("#d3d3d3");
 
     //Draw the graph
     update();
@@ -106,6 +127,7 @@ Update each group of objects in the D3 force simulation.
 function ticked() {
     svg.selectAll("line")
         .style("stroke", "#aaa")
+        .attr("stroke-width", 2)
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
@@ -114,7 +136,7 @@ function ticked() {
         .attr("r", 16)
         .style("fill", function(d) {return color(d.group)})
         .style("stroke", "#424242")
-        .style("stroke-width", "1px")
+        .style("stroke-width", "3px")
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
     svg.selectAll("text")
@@ -148,6 +170,9 @@ function dragended(d) {
 
 /*
 Enable controls based on our state machine.
+
+TODO: Create a file for event handling in regards to controls. Refactor the shit out of this too.
+We should handle the events ourselves, at least w/ mousedown/up. The generalizations in jquery will hold us back.
  */
 function setControls() {
     $("svg").on("click", function(event) {
@@ -157,16 +182,52 @@ function setControls() {
                 break;
             case STATE.HOVERNODE:
                 // TODO: Select method
+                alert('Selecting Node!' + JSON.stringify(selection));
                 break;
             case STATE.CONTEXTMENU:
                 // TODO: Select option or click out of context menu.
                 break;
+            default:
+                logDebug("No click handler for " +  state.value);
+                return;
         }
     });
 
-    // TODO: more controls like right click, middle mouse, etc.
+    $("svg").on("contextmenu", function(event) {
+        //Disable that default context menu shit
+        event.preventDefault();
+        switch (state) {
+            case STATE.HOVEREMPTY:
+                // TODO: Context Menu?
+                break;
+            case STATE.HOVERNODE:
+                if(getSpecialState() != STATE.LINKSTART) {
+                    setSpecialState(STATE.LINKSTART);
+                    setSpecialSelection(getSelection().object, getSelection().type);
+                    changeBGColor("#acc6d3");
+                } else {
+                    addLink(getSpecialSelection().object, getSelection().object);
+                    resetSpecialState();
+                    clearSpecialSelection();
+                    changeBGColor("#d3d3d3");
+                }
+                break;
+            default:
+                logDebug("No right mouse down handler for " + state.value);
+                return;
+        }
+    });
 }
 
+//Debug function I just need some visual feedback on linking ugh
+function changeBGColor(hex) {
+    $("#graphContainer").css("background-color", hex);
+}
+
+function getState(){ return state; }
+function getSpecialState(){ return specialState; }
+function getSelection() { return selection; }
+function getSpecialSelection() { return specialSelection; }
 /*
 Modify the state machine that will change control behaviors. Validates input before changing state.
  */
@@ -175,7 +236,54 @@ function setState(stateEnum) {
     if (!isEnum) {
         logError("Could not change state from " + state.value + " to " + stateEnum + ". \nStringified: " + JSON.stringify(stateEnum));
     } else {
-        state = stateEnum;
         logInfo("State Change: " + state.value + " -> " + stateEnum.value);
+        state = stateEnum;
     }
+}
+
+function setSelection(object, objectType) {
+    var isEnum = objectType instanceof enumValue;
+    if (!isEnum) {
+        logError("Could not change selection to type: " + objectType + ". \nStringified: " + JSON.stringify(objectType));
+    } else {
+        logInfo("Selection change: " + selection.type.value + " -> " + objectType.value);
+        selection = {
+            object : object,
+            type : objectType
+        }
+    }
+}
+
+function clearSelection() {
+    setSelection({}, TYPE.EMPTY);
+}
+
+/*
+In special circumstances, we need to keep track of another object/state.
+ */
+function setSpecialState(stateEnum) {
+    var isEnum = stateEnum instanceof enumValue;
+    if (!isEnum) {
+        logError("Could not change state from " + specialState.value + " to " + stateEnum + ". \nStringified: " + JSON.stringify(stateEnum));
+    } else {
+        logInfo("State Change: " + specialState.value + " -> " + stateEnum.value);
+        specialState = stateEnum;
+    }
+}
+
+function setSpecialSelection(object, objectType) {
+    var isEnum = objectType instanceof enumValue;
+    if (!isEnum) {
+        logError("Could not change selection to type: " + objectType + ". \nStringified: " + JSON.stringify(objectType));
+    } else {
+        logInfo("Selection change: " + specialSelection.type.value + " -> " + objectType.value);
+        specialSelection = {
+            object : object,
+            type : objectType
+        }
+    }
+}
+function resetSpecialState() { specialState = STATE.IDLE; }
+function clearSpecialSelection() {
+    setSpecialSelection({}, TYPE.EMPTY);
 }

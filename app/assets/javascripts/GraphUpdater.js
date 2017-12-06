@@ -15,8 +15,8 @@ function update() {
     updatedNodes.enter().append("circle")
         .attr("class", "nodes")
         .attr("r", nodeRadius)
-        .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut)
+        .on("mouseover", function(node) {nodeMouseOver(node);})
+        .on("mouseout", nodeMouseOut)
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
@@ -27,7 +27,9 @@ function update() {
         .data(data.links);
 
     updatedLines.enter().append("line")
-        .attr("class", "links");
+        .attr("class", "links")
+        .on("mouseover", function(link) {linkMouseOver(link);})
+        .on("mouseout", nodeMouseOut());
 
     //Add Labels
     var updatedLabels = svg.selectAll("text")
@@ -57,14 +59,44 @@ function update() {
 When hovering over a node, change state. This way we can specify different control behaviors, such as click to select
 versus click to create.
  */
-function handleMouseOver(){
+function nodeMouseOver(n){
+    if (bOverrideMouseOver()) {
+        return;
+    }
     setState(STATE.HOVERNODE);
+    setSelection(n, TYPE.NODE);
+}
+
+function linkMouseOver(l){
+    if (bOverrideMouseOver()) {
+        return;
+    }
+    setState(STATE.HOVERLINK);
+    setSelection(l, TYPE.LINK);
+}
+
+function bOverrideMouseOver() {
+    //Special cases, we should override the hover action if:
+    //1. A dragged node is trying to keep up with the cursor
+    var cases = [STATE.DRAGNODE];
+    for (var i = 0; i < cases.length; i++) {
+        if (getState() == cases[i]) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /*
 When the cursor leaves the node, it should be hovering over empty space or a link. Due to the charge force between
 nodes, there should never be any overlapping nodes so this should be a safe operation.
+
+TODO: Fix this for fucking links, we enter HOVERLINK but never return ugh
  */
-function handleMouseOut(){
+function nodeMouseOut(){
+    if(bOverrideMouseOver()) {
+        return;
+    }
     setState(STATE.HOVEREMPTY);
+    setSelection({}, TYPE.EMPTY);
 }
