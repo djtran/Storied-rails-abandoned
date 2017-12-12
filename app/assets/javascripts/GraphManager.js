@@ -25,8 +25,9 @@ var data = {
 Static constants
  */
 const color = d3.scaleOrdinal(d3.schemeCategory20);
-const nodeRadius = 3;
+const nodeRadius = 20;
 const nodeMinDist = 60;
+const borderWidth = 3;
 
 /*
 Graph State variables
@@ -37,6 +38,7 @@ var state = STATE.IDLE;
 var selection = {
     type: TYPE.EMPTY.value
 };
+var zoomTransform;
 
 //For special states (drag or linkstart)
 var specialState = STATE.IDLE;
@@ -60,13 +62,22 @@ $(document).ready(function(){
     //Collide is literally setting a radius that cannot be crossed
     //Center pulls the nodes (& the camera) to the center of the SVG.
     simulation = d3.forceSimulation()
-        .force("link", d3.forceLink().id(function(d) { return d.id; }))
+        .force("link", d3.forceLink()
+            .strength(2)
+            .id(function(d) { return d.id; }))
         .force('collide', d3.forceCollide()
             .radius(nodeMinDist)
             .iterations(2))
-        .force("center", d3.forceCenter(width / 2, height / 2));
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .velocityDecay(0.8);
 
     changeBGColor("#d3d3d3");
+
+    //add zoom capabilities
+    var zoom_handler = d3.zoom()
+        .on("zoom", zoom_actions);
+
+    zoom_handler(svg);
 
     //Draw the graph
     update();
@@ -125,23 +136,24 @@ function addLink(fromNode, toNode) {
 Update each group of objects in the D3 force simulation.
  */
 function ticked() {
+    svg.selectAll("circle")
+        .attr("r", nodeRadius)
+        .style("fill", function(d) {return color(d.group)})
+        .style("stroke", "#424242")
+        .style("stroke-width", borderWidth)
+        .attr("cx", function (d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
     svg.selectAll("line")
         .style("stroke", "#aaa")
-        .attr("stroke-width", 2)
+        .style("fill", "#aaa")
+        .style("stroke-width", borderWidth)
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
-    svg.selectAll("circle")
-        .attr("r", 16)
-        .style("fill", function(d) {return color(d.group)})
-        .style("stroke", "#424242")
-        .style("stroke-width", "3px")
-        .attr("cx", function (d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
     svg.selectAll("text")
         .attr("x", function(d) { return d.x; })
-        .attr("y", function (d) { return d.y - nodeRadius*10; })
+        .attr("y", function (d) { return d.y - 1.2*nodeRadius; })
         .style("font-family", "Lato")
         .style("font-size", "12px")
         .style("fill", "#333");
@@ -177,6 +189,10 @@ We should handle the events ourselves, at least w/ mousedown/up. The generalizat
 function setControls() {
     $("svg").on("click", function(event) {
         switch(state) {
+            case STATE.IDLE:
+                setState(STATE.HOVEREMPTY);
+                setSelection({}, TYPE.EMPTY);
+                break;
             case STATE.HOVEREMPTY:
                 addNode(event);
                 break;

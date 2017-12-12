@@ -8,7 +8,20 @@ the force.
  */
 function update() {
 
-    //Add Nodes.
+    //Add Lines
+    var updatedLines = svg.selectAll("line")
+        .data(data.links);
+
+    updatedLines.enter().append("line")
+        .attr("class", "links")
+        .on("mouseover", function(link) {linkMouseOver(link);})
+        .on("mouseout", function(link) {
+            // TODO: There are issues with not triggering if not wrapped in function(link) {}
+            // console.log("LINK MOUSE OUT");
+            nodeMouseOut()
+        });
+
+    //Add Nodes. (After lines to draw over them)
     var updatedNodes = svg.selectAll("circle")
         .data(data.nodes);
 
@@ -22,14 +35,6 @@ function update() {
             .on("drag", dragged)
             .on("end", dragended));
 
-    //Add Lines
-    var updatedLines = svg.selectAll("line")
-        .data(data.links);
-
-    updatedLines.enter().append("line")
-        .attr("class", "links")
-        .on("mouseover", function(link) {linkMouseOver(link);})
-        .on("mouseout", nodeMouseOut());
 
     //Add Labels
     var updatedLabels = svg.selectAll("text")
@@ -51,6 +56,7 @@ function update() {
     simulation.force("link")
         .links(data.links);
 
+    updateObjectZoom();
     //alpha starts at .05 cause I don't want shit flying everywhere
     simulation.alpha(.05).alphaTarget(0).restart();
 }
@@ -78,9 +84,11 @@ function linkMouseOver(l){
 function bOverrideMouseOver() {
     //Special cases, we should override the hover action if:
     //1. A dragged node is trying to keep up with the cursor
-    var cases = [STATE.DRAGNODE];
+    //2. Idle. Click to resume tracking.
+    var cases = [STATE.DRAGNODE, STATE.IDLE];
+    var curState = getState();
     for (var i = 0; i < cases.length; i++) {
-        if (getState() == cases[i]) {
+        if (curState == cases[i]) {
             return true;
         }
     }
@@ -99,4 +107,22 @@ function nodeMouseOut(){
     }
     setState(STATE.HOVEREMPTY);
     setSelection({}, TYPE.EMPTY);
+}
+
+/*
+Zoom functions
+ */
+function zoom_actions(){
+    zoomTransform = d3.event.transform;
+    svg.selectAll("line").attr("transform", zoomTransform);
+    svg.selectAll("circle").attr("transform", zoomTransform);
+    svg.selectAll("text").attr("transform", zoomTransform);
+}
+
+function updateObjectZoom(){
+    if(zoomTransform != null) {
+        svg.selectAll("line").attr("transform", zoomTransform);
+        svg.selectAll("circle").attr("transform", zoomTransform);
+        svg.selectAll("text").attr("transform", zoomTransform);
+    }
 }
