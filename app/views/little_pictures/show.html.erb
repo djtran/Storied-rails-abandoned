@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @little_picture.description %>
+</p>
+
+<p>
+  <strong>Flavor:</strong>
+  <%= @little_picture.flavor %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @little_picture.name %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @little_picture.tags %>
+</p>
+
+<p>
+  <strong>Uuid:</strong>
+  <%= @little_picture.uuid %>
+</p>
+
+<%= link_to 'Edit', edit_little_picture_path(@little_picture) %> |
+<%= link_to 'Back', little_pictures_path %>

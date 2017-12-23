@@ -1,7 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  description: MyText
+  flavor: MyText
+  name: MyString
   tags: MyString
+  uuid: MyString
 
 two:
+  description: MyText
+  flavor: MyText
+  name: MyString
   tags: MyString
+  uuid: MyString

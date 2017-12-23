@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Big Pictures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uuid</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Flavor</th>
+      <th>Location</th>
+      <th>Time</th>
+      <th>Culture</th>
+      <th>Edges</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @big_pictures.each do |big_picture| %>
+      <tr>
+        <td><%= big_picture.uuid %></td>
+        <td><%= big_picture.name %></td>
+        <td><%= big_picture.description %></td>
+        <td><%= big_picture.flavor %></td>
+        <td><%= big_picture.location %></td>
+        <td><%= big_picture.time %></td>
+        <td><%= big_picture.culture %></td>
+        <td><%= big_picture.edges %></td>
+        <td><%= link_to 'Show', big_picture %></td>
+        <td><%= link_to 'Edit', edit_big_picture_path(big_picture) %></td>
+        <td><%= link_to 'Destroy', big_picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Big Picture', new_big_picture_path %>

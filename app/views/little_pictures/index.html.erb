@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Little Pictures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Flavor</th>
+      <th>Name</th>
+      <th>Tags</th>
+      <th>Uuid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @little_pictures.each do |little_picture| %>
+      <tr>
+        <td><%= little_picture.description %></td>
+        <td><%= little_picture.flavor %></td>
+        <td><%= little_picture.name %></td>
+        <td><%= little_picture.tags %></td>
+        <td><%= little_picture.uuid %></td>
+        <td><%= link_to 'Show', little_picture %></td>
+        <td><%= link_to 'Edit', edit_little_picture_path(little_picture) %></td>
+        <td><%= link_to 'Destroy', little_picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Little Picture', new_little_picture_path %>

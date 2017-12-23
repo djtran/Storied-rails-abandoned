@@ -1,13 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  location: MyText
-  time: MyText
+  uuid: MyString
+  name: MyString
+  description: MyText
+  flavor: MyText
+  location: MyString
+  time: MyString
   culture: MyText
-  links: MyText
+  edges: MyString
 
 two:
-  location: MyText
-  time: MyText
+  uuid: MyString
+  name: MyString
+  description: MyText
+  flavor: MyText
+  location: MyString
+  time: MyString
   culture: MyText
-  links: MyText
+  edges: MyString

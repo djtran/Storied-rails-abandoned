@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :big_picture
+  resources :little_pictures
+  resources :big_pictures
+  # RESOURCES give you:
   # get     #index - list of all big pictures
   # get     #new - form for create object
   # post    #create - actual request
